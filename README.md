@@ -7,13 +7,13 @@ The current version depends on [spec-tools](https://github.com/metosin/spec-tool
 
 Add to deps.edn:
 ```
-code204/spec-forms {:mvn/version "0.1.0-alpha2"}
+io.staticweb/spec-forms {:mvn/version "0.1.0"}
 reforms {:mvn/version "0.4.3"}
 ```
 
 Or add to project.clj:
 ```
-[code204/spec-forms "0.1.0-alpha2"]
+[io.staticweb/spec-forms "0.1.0"]
 [reforms "0.4.3"]
 ```
 
