@@ -52,7 +52,7 @@ An example `.cljc` file with a full spec definition:
 (def non-blank
   (sf/validator
     #(and % (not (str/blank? %)))
-    "Must not be blank"))
+    "Must not be blank."))
     
 (s/def ::login (s/and (min-length 2) (max-length 4) non-blank))
 (s/def ::password (s/and (min-length 2) (max-length 4) non-blank))
