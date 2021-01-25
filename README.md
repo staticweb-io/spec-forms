@@ -1,7 +1,7 @@
 # spec-forms
 A Clojure(Script) library for creating human-readable error messages from [specs](https://clojure.org/guides/spec), with some helper functions for using those messages with [Reforms](https://github.com/bilus/reforms).
 
-Spec-forms will be in alpha as long as Clojure spec is in alpha, and it will have breaking changes. The current version depends on [spec-tools](https://github.com/metosin/spec-tools), but when spec-alpha2 is released, this dependency will be dropped and spec-forms will create Specs directly. There will be significant changes due to the fundamental changes in spec-alpha2.
+The current version depends on [spec-tools](https://github.com/metosin/spec-tools), but when spec-alpha2 is released, this dependency will be dropped and spec-forms will create Specs directly.
 
 ## Install
 
@@ -20,13 +20,13 @@ Or add to project.clj:
 ## Usage
 ### Spec Creation
 
-This is not a tutorial for specs or Reforms, but if you need help getting started, you can [message me on ClojureVerse](https://clojureverse.org/u/john_shaffer).
-
 First, you need some specs. You can define error messages inline with the `spec-forms.alpha/validator` macro, or you can use normal specs in conjunction with the [phrase](https://github.com/alexanderkiel/phrase) library. We'll start with the `validator` macro. It takes two arguments: a predicate function to be called on the value, and an error message for when the predicate returns false, e.g.,
 ```clojure
+(require '[spec-forms.alpha :use validator])
+
 (validator
   #(>= 16 (count %))
-  "Must be 16 characters or less."))
+  "Must be 16 characters or less.")
 ```
 The `validator` simply adds the message to the data returned by `clojure.spec.alpha/explain-data`, under the `:reason` key. If you happen to have existing code using `spec-tools` that returns a :reason, then you can use those specs with no changes.
 
@@ -58,6 +58,33 @@ An example `.cljc` file with a full spec definition:
 (s/def ::password (s/and (min-length 2) (max-length 4) non-blank))
 
 (s/def ::login-form (s/keys :req [::login ::password]))
+```
+
+### Validation with clojure.spec
+
+To validate on your own (rather than using reforms), just call `spec.alpha/explain` or `spec.alpha/explain-data` on any of the specs that you created earlier. `explain` prints the failure reason, while `explain-data` returns a vector of problems which each have a :reason key with the failure message.
+
+```clojure
+(in-ns 'sf-test)
+
+(s/explain ::login "")
+;; "" - failed: Must be at least 2 characters long. spec: :sf-test/login
+;= nil
+
+(s/explain-data ::login "")
+;=#:clojure.spec.alpha{:problems
+                       ({:path [],
+                         :pred
+                         (clojure.core/fn
+                          [%]
+                          (clojure.core/<= n (clojure.core/count %))),
+                         :val "",
+                         :via [:sf-test/login],
+                         :in [],
+                         :reason
+                         "Must be at least 2 characters long."}),
+                       :spec :sf-test/login,
+                       :value ""}
 ```
 
 ### Form Validation
