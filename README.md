@@ -1,7 +1,7 @@
 # spec-forms
 A Clojure(Script) library for creating human-readable error messages from [specs](https://clojure.org/guides/spec), with some helper functions for using those messages with [Reforms](https://github.com/bilus/reforms).
 
-The current version depends on [spec-tools](https://github.com/metosin/spec-tools), but when spec-alpha2 is released, this dependency will be dropped and spec-forms will create Specs directly.
+The current version depends on [spec-tools](https://github.com/metosin/spec-tools), but when spec-alpha2 is released and works with ClojureScript, this dependency will be dropped and spec-forms will create Specs directly.
 
 ## Install
 
